@@ -10,12 +10,11 @@ class BaseModel:
     """init method"""
 
     def __init__(self, *args, **kwargs):
-
         """ class for base model updated for kwargs and args"""
 
-        if kwargs is not None and args != {}:
-
-            if key == "created_at":
+        if kwargs is not None and kwargs != {}:
+            for key in kwargs:
+                if key == "created_at":
                     self.__dict__["created_at"] = datetime.strptime(
                         kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f")
                 elif key == "updated_at":
@@ -29,14 +28,17 @@ class BaseModel:
             self.updated_at = datetime.now()
 
     """def str function"""
+
     def __str__(self):
         return '[__class__.__name__], (self.id), self.__dict__'
 
     """save function"""
+
     def save(self):
         self.updated_at = datetime.now()
 
     """save to dict"""
+
     def to_dict(self):
         my_dict = self.__dict__.copy()
         my_dict['__class__'] = type(self).__name__
